@@ -20,6 +20,8 @@
       </tr>
     {/each}
   </table>
+{:catch error}
+  <p role="alert">Error: {error.message}</p>
 {/await}
 
 <style>

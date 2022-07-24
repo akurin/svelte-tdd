@@ -38,3 +38,15 @@ test("shows Todos", async () => {
   expect(cells[0].innerHTML).toBe("1");
   expect(cells[1].innerHTML).toBe("delectus aut autem");
 });
+
+test("shows fetch error", async () => {
+  // mock fetch error
+  global.fetch = vitest.fn(() =>
+    Promise.reject({ message: "Network error" })
+  ) as Mock;
+
+  render(Todos);
+
+  const errorMessage = await screen.findByRole("alert");
+  expect(errorMessage.innerHTML).toBe("Error: Network error");
+});
