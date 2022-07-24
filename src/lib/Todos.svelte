@@ -1,18 +1,13 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-
-  let todos: Array<object> = [];
-  let loading = true;
-  onMount(async () => {
+  const fetchTodos = async () => {
     const res = await fetch(`https://jsonplaceholder.typicode.com/todos`);
-    todos = await res.json();
-    loading = false;
-  });
+    return await res.json();
+  };
 </script>
 
-{#if loading}
+{#await fetchTodos()}
   <p>Loading...</p>
-{:else}
+{:then todos}
   <table>
     <tr>
       <th>id</th>
@@ -25,13 +20,14 @@
       </tr>
     {/each}
   </table>
-{/if}
+{/await}
 
 <style>
   table {
     border-collapse: collapse;
     text-align: left;
   }
+
   th,
   td {
     border: 1px solid black;
